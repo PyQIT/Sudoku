@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
-#include <stdio.h>
+#include <cstdbool>
+#include <ctime>
+#include <cstdlib>
 
 namespace Sudoku {
 
@@ -1396,9 +1398,9 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 			// 
 			this->panel1->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
 			this->panel1->Controls->Add(this->panel2);
-			this->panel1->Location = System::Drawing::Point(572, 196);
+			this->panel1->Location = System::Drawing::Point(575, 196);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(413, 2);
+			this->panel1->Size = System::Drawing::Size(406, 2);
 			this->panel1->TabIndex = 94;
 			this->panel1->Visible = false;
 			// 
@@ -1413,27 +1415,27 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 			// panel3
 			// 
 			this->panel3->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->panel3->Location = System::Drawing::Point(574, 335);
+			this->panel3->Location = System::Drawing::Point(575, 335);
 			this->panel3->Name = L"panel3";
-			this->panel3->Size = System::Drawing::Size(413, 2);
+			this->panel3->Size = System::Drawing::Size(406, 2);
 			this->panel3->TabIndex = 95;
 			this->panel3->Visible = false;
 			// 
 			// panel4
 			// 
 			this->panel4->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->panel4->Location = System::Drawing::Point(708, 63);
+			this->panel4->Location = System::Drawing::Point(708, 64);
 			this->panel4->Name = L"panel4";
-			this->panel4->Size = System::Drawing::Size(2, 413);
+			this->panel4->Size = System::Drawing::Size(2, 401);
 			this->panel4->TabIndex = 96;
 			this->panel4->Visible = false;
 			// 
 			// panel5
 			// 
 			this->panel5->BackColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->panel5->Location = System::Drawing::Point(846, 62);
+			this->panel5->Location = System::Drawing::Point(846, 64);
 			this->panel5->Name = L"panel5";
-			this->panel5->Size = System::Drawing::Size(2, 413);
+			this->panel5->Size = System::Drawing::Size(2, 401);
 			this->panel5->TabIndex = 97;
 			this->panel5->Visible = false;
 			// 
@@ -1569,9 +1571,9 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 			this->label1->ForeColor = System::Drawing::SystemColors::WindowText;
 			this->label1->Location = System::Drawing::Point(12, 600);
 			this->label1->Name = L"label1";
-			this->label1->Size = System::Drawing::Size(84, 16);
+			this->label1->Size = System::Drawing::Size(74, 16);
 			this->label1->TabIndex = 102;
-			this->label1->Text = L"Version 0.1.1";
+			this->label1->Text = L"Version 0.2";
 			// 
 			// MyForm
 			// 
@@ -1808,28 +1810,427 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 			}
 		}
 
-		private: bool generate_easy_next(int sudoku_arr[9][9], int tmp[9][9], int x, int y) {
-			if (x == 8 && y == 8)
-				return true;
-			else if (x == 8)
-				return this->generate_easy_solve(sudoku_arr, tmp, 0, y + 1);
-			else
-				return this->generate_easy_solve(sudoku_arr, tmp, x + 1, y);
+		 bool check_if_had_been_selected(int INumber, int tab[], int how_many)
+		 {
+			 if (how_many <= 0)
+				 return false;
+
+			 int i = 0;
+			 do
+			 {
+				 if (tab[i] == INumber)
+					 return true;
+
+				 i++;
+			 } while (i < how_many);
+
+			 return false;
+		 }
+
+		private: Void push_array_to_boxes_0(int tmp[9][9], int sudoku[9][9],int randomly_selected[27])
+		{
+		
+
+			int a = randomly_selected[0];
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + a.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + a.ToString()]->ForeColor = Color::Green;
+				}
+			}
 		}
 
-		private: bool generate_easy_solve(int sudoku_arr[9][9], int tmp[9][9], int x, int y) {
-			if (sudoku_arr[x][y] == 0) {
-				for (int i = 1; i <= 9; i++) {
-					if (this->check_if_user_can_insert(tmp, x, y, i)) {
-						tmp[x][y] = i;
-						if (this->generate_easy_next(sudoku_arr, tmp, x, y))
-							return true;
-					}
+		private: Void push_array_to_boxes_1(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[1];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+					this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
 				}
-				tmp[x][y] = 0;
-				return false;
 			}
-			return this->generate_easy_next(sudoku_arr, tmp, x, y);
+		}
+
+		private: Void push_array_to_boxes_2(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[2];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_3(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[3];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_4(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[4];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_5(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[5];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_6(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[6];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_7(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[7];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_8(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[8];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_9(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[9];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_10(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[10];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_11(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[11];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_12(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[12];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_13(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[13];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_14(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[14];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_15(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[15];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_16(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[16];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_17(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[17];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_18(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[18];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_19(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[19];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_20(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[20];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_21(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[21];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_22(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[22];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_23(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[23];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_24(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[24];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_25(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[25];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
+		}
+
+		private: Void push_array_to_boxes_26(int tmp[9][9], int sudoku[9][9], int randomly_selected[27])
+		{
+			int b = randomly_selected[26];
+
+			for (int i = 0; i < 9; i++)
+			{
+				for (int j = 0; j < 9; j++)
+				{
+					this->Controls["Box" + b.ToString()]->Text = tmp[i][j].ToString();
+					if (sudoku[i][j] != 0)
+						this->Controls["Box" + b.ToString()]->ForeColor = Color::Green;
+				}
+			}
 		}
 
 		private: System::Void generate_easy() {
@@ -1838,27 +2239,9 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 
 			int tmp[9][9];
 			this->boxes_to_array(sudoku_arr);
-			if (this->check_if_sudoku_is_empty(sudoku_arr)) {
-				sudoku_arr[0][0] = (rand() % 9 + 1);
-
-			}
-			if (this->check_array(sudoku_arr))
-			{
-				for (int i = 0; i < 9; i++)
-					for (int j = 0; j < 9; j++)
-						tmp[i][j] = sudoku_arr[i][j];
-				if (this->generate_easy_solve(sudoku_arr, tmp, 0, 0))
-				{
-					this->push_array_to_boxes(tmp, sudoku_arr);
-				}
-			}
-		}
-
-		private: System::Void generate_medium() {
-
-			int sudoku_arr[9][9];
-
-			int tmp[9][9];
+			srand(time(0));
+			int randomly_selected[50];
+			int rnd_selected = 0;
 			this->boxes_to_array(sudoku_arr);
 			if (this->check_if_sudoku_is_empty(sudoku_arr)) {
 				sudoku_arr[0][0] = (rand() % 9 + 1);
@@ -1874,6 +2257,68 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 					this->push_array_to_boxes(tmp, sudoku_arr);
 				}
 			}
+
+			do
+			{
+				int number = rand() % 80;
+				if (check_if_had_been_selected(number, randomly_selected, rnd_selected) == false)
+				{
+					randomly_selected[rnd_selected] = number;
+					rnd_selected++;
+
+					clear_box(number);
+				}
+			} while (rnd_selected < 50);
+
+		}
+
+	private: System::Void clear_box(int c) {
+		for (int i = 0; i < 9; i++)
+		{
+			for (int j = 0; j < 9; j++)
+			{
+				this->Controls["Box" + c.ToString()]->Text = "";
+				this->Controls["Box" + c.ToString()]->ForeColor = Color::Green;
+			}
+		}
+	}
+
+		private: System::Void generate_medium() {
+
+			int sudoku_arr[9][9];
+
+			int tmp[9][9];
+			this->boxes_to_array(sudoku_arr);
+			srand(time(0));
+			int randomly_selected[60];
+			int rnd_selected = 0;
+			this->boxes_to_array(sudoku_arr);
+			if (this->check_if_sudoku_is_empty(sudoku_arr)) {
+				sudoku_arr[0][0] = (rand() % 9 + 1);
+
+			}
+			if (this->check_array(sudoku_arr))
+			{
+				for (int i = 0; i < 9; i++)
+					for (int j = 0; j < 9; j++)
+						tmp[i][j] = sudoku_arr[i][j];
+				if (this->solve(sudoku_arr, tmp, 0, 0))
+				{
+					this->push_array_to_boxes(tmp, sudoku_arr);
+				}
+			}
+
+			do
+			{
+				int number = rand() % 80;
+				if (check_if_had_been_selected(number, randomly_selected, rnd_selected) == false)
+				{
+					randomly_selected[rnd_selected] = number;
+					rnd_selected++;
+
+					clear_box(number);
+				}
+			} while (rnd_selected < 60);
 		}
 
 		private: System::Void generate_hard() {
@@ -1882,13 +2327,17 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 
 			int tmp[9][9];
 			this->boxes_to_array(sudoku_arr);
+			srand(time(0));
+			int randomly_selected[68];
+			int rnd_selected = 0;
+			this->boxes_to_array(sudoku_arr);
 			if (this->check_if_sudoku_is_empty(sudoku_arr)) {
 				sudoku_arr[0][0] = (rand() % 9 + 1);
 
 			}
 			if (this->check_array(sudoku_arr))
 			{
-								for (int i = 0; i < 9; i++)
+				for (int i = 0; i < 9; i++)
 					for (int j = 0; j < 9; j++)
 						tmp[i][j] = sudoku_arr[i][j];
 				if (this->solve(sudoku_arr, tmp, 0, 0))
@@ -1896,6 +2345,18 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 					this->push_array_to_boxes(tmp, sudoku_arr);
 				}
 			}
+
+			do
+			{
+				int number = rand() % 80;
+				if (check_if_had_been_selected(number, randomly_selected, rnd_selected) == false)
+				{
+					randomly_selected[rnd_selected] = number;
+					rnd_selected++;
+
+					clear_box(number);
+				}
+			} while (rnd_selected < 68);
 		}
 
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -2378,6 +2839,10 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 		 metroPanel5->Hide();
 		 metroPanel6->Hide();
 		 metroPanel7->Hide();
+		 panel4->Hide();
+		 panel1->Hide();
+		 panel3->Hide();
+		 panel5->Hide();
 		 Box0->Hide();
 		 Box9->Hide();
 		 Box18->Hide();
@@ -2471,12 +2936,14 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 
 	private: System::Void metroLink1_Click(System::Object^  sender, System::EventArgs^  e) {
 		Hide_panels_link2();
+		clear_array();
 		Show_panels();
 
 	}
 
 	private: System::Void metroLink2_Click(System::Object^  sender, System::EventArgs^  e) {
 		Hide_panels_link2();
+		clear_array();
 		Box0->Show();
 		Box9->Show();
 		Box18->Show();
@@ -2543,6 +3010,10 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 		Box7->Show();
 		Box80->Show();
 		Box71->Show();
+		panel4->Show();
+		panel1->Show();
+		panel3->Show();
+		panel5->Show();
 		Box62->Show();
 		Box53->Show();
 		Box44->Show();
@@ -2564,6 +3035,7 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 
 	private: System::Void generate_easy_link(System::Object^  sender, System::EventArgs^  e) {
 				 Hide_panels_link2();
+				 clear_array();
 				 Box0->Show();
 				 Box9->Show();
 				 Box18->Show();
@@ -2630,6 +3102,10 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 				 Box7->Show();
 				 Box80->Show();
 				 Box71->Show();
+				 panel4->Show();
+				 panel1->Show();
+				 panel3->Show();
+				 panel5->Show();
 				 Box62->Show();
 				 Box53->Show();
 				 Box44->Show();
@@ -2646,13 +3122,13 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 				 Box29->Show();
 				 Box28->Show();
 				 Box27->Show();
-				 clear_array();
 				 generate_easy();
 			 }
 
 
 		private: System::Void generate_medium_link(System::Object^  sender, System::EventArgs^  e) {
 				 Hide_panels_link2();
+				 clear_array();
 				 Box0->Show();
 				 Box9->Show();
 				 Box18->Show();
@@ -2719,6 +3195,10 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 				 Box7->Show();
 				 Box80->Show();
 				 Box71->Show();
+				 panel4->Show();
+				 panel1->Show();
+				 panel3->Show();
+				 panel5->Show();
 				 Box62->Show();
 				 Box53->Show();
 				 Box44->Show();
@@ -2735,11 +3215,11 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 				 Box29->Show();
 				 Box28->Show();
 				 Box27->Show();
-				 clear_array();
 				 generate_medium();
 			 }
 	private: System::Void generate_hard_link(System::Object^  sender, System::EventArgs^  e) {
 		Hide_panels_link2();
+		clear_array();
 		Box0->Show();
 		Box9->Show();
 		Box18->Show();
@@ -2806,6 +3286,10 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 		Box7->Show();
 		Box80->Show();
 		Box71->Show();
+		panel4->Show();
+		panel1->Show();
+		panel3->Show();
+		panel5->Show();
 		Box62->Show();
 		Box53->Show();
 		Box44->Show();
@@ -2822,7 +3306,6 @@ private: MetroFramework::Controls::MetroPanel^  metroPanel7;
 		Box29->Show();
 		Box28->Show();
 		Box27->Show();
-		clear_array();
 		generate_hard();
 	}
 

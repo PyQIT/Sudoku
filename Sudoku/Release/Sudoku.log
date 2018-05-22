@@ -1,2 +1,5 @@
 ﻿  MyForm.cpp
+d:\pp\sudoku\sudoku\MyForm.h(2242): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+d:\pp\sudoku\sudoku\MyForm.h(2292): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
+d:\pp\sudoku\sudoku\MyForm.h(2330): warning C4244: "argument": konwersja z "time_t" do "unsigned int", możliwa utrata danych
   Sudoku.vcxproj -> D:\PP\sudoku\Release\Sudoku.exe
