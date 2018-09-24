@@ -3,6 +3,10 @@
 #include <iostream>
 #include <chrono>
 
+/* Author PrzemysÅ‚aw Pyk
+ Maracui
+ 23.05.2018 */
+
 namespace Sudoku {
 
 	using namespace System;
@@ -1198,7 +1202,7 @@ private: System::Windows::Forms::RichTextBox^  errorbox;
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(184, 37);
 			this->button1->TabIndex = 82;
-			this->button1->Text = L"Rozwi¹¿";
+			this->button1->Text = L"RozwiÂ¹Â¿";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
@@ -1640,11 +1644,11 @@ private: System::Windows::Forms::RichTextBox^  errorbox;
 				{
 					this->array_to_boxes(tmp, sudoku_arr);
 					clock_t end = clock();
-					this->infobox->Text = "Czas rozwi¹zania: \n" + (end - start).ToString() + " milisekund";
+					this->infobox->Text = "Czas rozwiÂ¹zania: \n" + (end - start).ToString() + " milisekund";
 				}
 			}
 			else
-				this->errorbox->Text = "Brak rozwi¹zania";
+				this->errorbox->Text = "Brak rozwiÂ¹zania";
 		}
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 		int c = 0;
